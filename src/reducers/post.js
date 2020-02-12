@@ -36,8 +36,11 @@ function postReducer(state = initialState, action) {
                 datatable: {},
                 text: action.text
             }
-        // case Action.UPDATE:
-        //     return state
+        case Action.UPDATE:
+            return {
+                ...state,
+                text: action.text
+            }
         default:
             return state
     }

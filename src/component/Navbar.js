@@ -14,30 +14,18 @@ import {
 
 import { fetchapi } from './../config/index'
 
-import logo from './../logo.svg'
+import logo from './../image/1566294312822.png'
 import { NavLink } from "react-router-dom";
 
 class Navbar extends Component {
 
     state = {
         activeItem: 'home',
-        users: null,
-        admin: null
+        users: true,
+        admin: true
     }
 
     handleItemClick = (e, { name }) => this.setState({ activeItem: name })
-
-
-    // SetlocalStore = (res) => {
-    //     sessionStorage.setItem('myData', res)
-    //     const data = JSON.parse(res)
-    //     if (data) {
-    //         data.map(e =>
-    //             this.setState({ users: e })
-    //         )
-    //     }
-    // }
-
 
     checkadmin = () => {
         let { users } = this.state
@@ -66,23 +54,8 @@ class Navbar extends Component {
             data.map(e =>
                 this.setState({ users: e })
             )
-            // setTimeout(() => {
-            //     this.checkadmin()
-            // }, 3000)
         }
-        // let test = Promise.resolve(fetchapi())
-
-        // test.then(function (value) {
-        //   value.map(e =>
-        //     console.log(e.car_licence));
-        // });
-        // else {
-        //   this.setState({ users: null })
-        // }
     }
-    // componentWillUpdate(nextProps, nextState) {
-    //     console.log(nextState)
-    // }
 
     render() {
         let { activeItem, users } = this.state
@@ -109,9 +82,9 @@ class Navbar extends Component {
                     />
                     <Menu.Item
 
-                        name="summerycar"
-                        active={activeItem === 'summerycar'}
-                        as={NavLink} to="/summerycar" content="SummeryCar"
+                        name="summarycar"
+                        active={activeItem === 'summarycar'}
+                        as={NavLink} to="/summarycar" content="Summary Car"
                         onClick={this.handleItemClick}
                     />
                     <Menu.Item

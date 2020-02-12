@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { Container, Segment, Header, Input, Button, Icon, Grid } from 'semantic-ui-react/dist/commonjs'
+import { Container, Segment, Header, Input, Button, Icon, Grid, Checkbox, List } from 'semantic-ui-react/dist/commonjs'
 
 class AuthSystem extends Component {
 
@@ -76,6 +76,25 @@ class AuthSystem extends Component {
                                 </Grid.Column>
                                 <Grid.Column>
                                     <Segment color="black">Department : </Segment>
+                                </Grid.Column>
+                                <Grid.Column>
+                                    <Segment color="black"> : </Segment>
+                                </Grid.Column>
+                            </Grid.Row>
+                        </Grid>
+                        <Grid>
+                            <Grid.Row>
+                                <Grid.Column>
+                                    <Segment color="black">
+                                        <Checkbox label='Auth' />
+                                        <List bulleted>
+                                            <List.Item><Checkbox label='Make my profile visible' /></List.Item>
+                                        </List>
+                                        <Checkbox label='SummeryCar' />
+
+                                        <Checkbox label='Make my profile visible' />
+                                        <Checkbox label='Make my profile visible' />
+                                    </Segment>
                                 </Grid.Column>
                             </Grid.Row>
                         </Grid>

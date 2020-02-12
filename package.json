@@ -2,8 +2,9 @@
   "name": "project-vh3",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://vh3.digime.space",
+  "homepage": "https://vh3.wwit.info",
   "dependencies": {
+    "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "pdfmake": "^0.1.57",
     "react": "^16.6.0",
@@ -15,7 +16,8 @@
     "redux": "^4.0.1",
     "redux-logger": "^3.0.6",
     "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^0.83.0"
+    "semantic-ui-react": "^0.83.0",
+    "universal-cookie": "^4.0.2"
   },
   "scripts": {
     "start": "react-scripts start",

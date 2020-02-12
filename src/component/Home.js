@@ -2,11 +2,16 @@ import React from 'react'
 import { Container, Header, Segment, Icon, List } from 'semantic-ui-react/dist/commonjs'
 import { Link } from "react-router-dom";
 
+import UpdateNew from './UpdateNew'
+
 
 export default () => (
     <div>
         <Container style={{ marginTop: '5em' }}>
             <Header size="huge">VEHICLE EXPENSES FORM ( VH 3 )</Header>
+        </Container>
+        <Container>
+            <UpdateNew />
         </Container>
         <Container style={{ marginTop: '2em', marginBottom: '30em' }}>
             <Segment color="red">
@@ -24,9 +29,9 @@ export default () => (
                     <List.Item>
                         <Icon name='chart area' />
                         <List.Content>
-                            <List.Header><Link to="/summerycar">SummeryCar</Link></List.Header>
+                            <List.Header><Link to="/summarycar">Summary Car</Link></List.Header>
                             <List.Description>
-                                หน้า SummeryCar ข้อมูลการใช้งานรถยนต์ (SummeryCar)
+                                หน้า SummeryCar ข้อมูลการใช้งานรถยนต์ (Summary Car)
         </List.Description>
                         </List.Content>
                     </List.Item>
@@ -36,7 +41,7 @@ export default () => (
         </Container>
         <Segment inverted vertical style={{ padding: '5em 0em' }}>
             <Container>
-        Power by W&W Team  (version 1.0.5)
+        Power by W&W Team  (version 1.0.6)
 
             </Container>
         </Segment>

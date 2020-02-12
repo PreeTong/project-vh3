@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import Security from './Security'
 import Login from './../Component/Login'
+// import Register from '../Component/Register'
+
+// import { Link } from "react-router-dom";
 
 // import { webapi } from './../config/index'
 
@@ -8,7 +11,8 @@ import Login from './../Component/Login'
 export default class Auth extends Component {
 
     state = {
-        isLogin: false
+        isLogin: false,
+        register: false
     }
 
     componentWillMount() {
@@ -28,14 +32,14 @@ export default class Auth extends Component {
     }
     Onlogout = () => {
 
-        this.setState({ isLogin: false })
+        this.setState({ isLogin: false }, () => sessionStorage.removeItem("myData"))
 
-
-        sessionStorage.removeItem("myData");
     }
-
     render() {
         let { isLogin } = this.state
+
+
+        // return <Register />
 
         return !isLogin ? <Login login={this} /> : <Security logout={this.Onlogout} />
         // return <Security/>

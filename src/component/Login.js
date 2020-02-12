@@ -3,15 +3,28 @@ import { Button, Form, Grid, Header, Segment, Message } from 'semantic-ui-react'
 
 import { webapi } from './../config/index'
 
+const divStyle = {
+    marginTop: '100px',
+};
+
 export default class Login extends Component {
 
     state = {
+        register: false,
+        // pop_validate: false,
         messageIsOpenNegative: true,
         userlogin: {
             user: '',
             pass: ''
-            // user: "akekarach_mit@ww.co.th",
-            // pass: "01014684"
+        },
+        registerForm: {
+            emp_id: '',
+            password: '',
+            confirm_password: ''
+        },
+        isOpen: {
+            pop_emp_id: false,
+            pop_password: false
         }
     }
 
@@ -22,33 +35,34 @@ export default class Login extends Component {
     handleChange = this.handleChange.bind(this)
 
     handleChange(event) {
-        this.setState({
-            userlogin: {
-                ...this.state.userlogin,
-                [event.target.name]: event.target.value
-            }
-        })
+        if (event.target.name === 'emp_id' || event.target.name === 'password' || event.target.name === 'confirm_password') {
+            this.setState({
+                registerForm: {
+                    ...this.state.registerForm,
+                    [event.target.name]: event.target.value
+                }
+            })
+        }
+        else {
+            this.setState({
+                userlogin: {
+                    ...this.state.userlogin,
+                    [event.target.name]: event.target.value
+                }
+            })
+        }
     }
 
-    Submit() {
+    Login() {
         let { userlogin } = this.state
-        // console.log(userlogin)
-        // fetch('https://www.digime.space:8251/api/login', {
         fetch(webapi + 'login', {
-            // fetch('https://www.digime.space:8250/api/login', {
-            // fetch('http://wwit.ddns.net:8250/api/login', {
-
-            // mode: 'no-cors',
             method: 'post',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-
                 user: userlogin.user,
                 pass: userlogin.pass
-                // user: "akekarach_mit@ww.co.th",
-                // pass: "01014684"
             })
         }).then((res) => {
             if (res.status === 200) {
@@ -74,7 +88,6 @@ export default class Login extends Component {
                 else {
                     this.setState({ messageText: "Email or Password No SUCCESSS", messageIsOpenNegative: false })
                 }
-                // this.SetlocalStore(res)
 
             });
 
@@ -87,10 +100,6 @@ export default class Login extends Component {
 
         const data = JSON.parse(res)
 
-        // console.log(data[0].user_empid)
-
-        // let items = fetchapi('vh3/checkrole', { search: data[0].user_empid, process: 'checkrole' })
-
         sessionStorage.setItem('myData', res)
         if (data) {
             data.map(e =>
@@ -99,29 +108,45 @@ export default class Login extends Component {
         }
     }
 
-    componentWillReceiveProps(nextProps) {
-        // let { data } = this.state
-        console.log(nextProps)
+    OnRegister = () => {
+        console.log('OnRegister')
+        this.setState({
+            register: true,
+            registerForm: {
+                emp_id: '',
+                password: '',
+                confirm_password: ''
+            }
+        })
     }
+    OnRegisterBack = () => {
+        this.setState({ register: false })
+    }
+
+    _validate = () => {
+        let { registerForm: { emp_id, password, confirm_password } } = this.state
+        this.setState({
+            ...this.state,
+            isOpen: {
+                pop_emp_id: (emp_id.length !== 8),
+                pop_password: (password.length !== 0|| confirm_password !== 0 || password !== confirm_password)
+            }
+        })
+
+    }
+
+    // componentWillUpdate(nextProps, nextState) {
+    //     console.log(nextState)
+    // }
+
+
+
     render() {
 
-        const { messageText, messageIsOpenNegative, userlogin: { user, pass } } = this.state
+        const { register, messageText, messageIsOpenNegative, userlogin: { user, pass }, registerForm: { emp_id, password, confirm_password }, isOpen: { pop_emp_id, pop_password } } = this.state
 
-        return (
-            <div className='login-form'>
-                {/*
-      Heads up! The styles below are necessary for the correct render of this example.
-      You can do same with CSS, the main idea is that all the elements up to the `Grid`
-      below must have a height of 100%.
-    */}
-                <style>{`
-      body > div,
-      body > div > div,
-      body > div > div > div.login-form {
-        height: 100%;
-      }
-    `}
-                </style>
+        return !register ? (
+            <div className='login-form' style={divStyle}>
 
                 <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
                     <Grid.Column style={{ maxWidth: 450 }}>
@@ -142,19 +167,77 @@ export default class Login extends Component {
                                     onChange={this.handleChange}
                                 />
 
-                                <Button color='teal' fluid size='large' onClick={() => this.Submit()}>
+                                <Button color='teal' fluid size='large' onClick={() => this.Login()}>
                                     Login
             </Button>
                             </Segment>
-
+                            <Header as='h4'>Best viewed with Chrome</Header>
                             <Message hidden={messageIsOpenNegative} negative>{messageText}</Message>
                         </Form>
                         {/* <Message>
-                            New to us? <a href='#'>Sign Up</a>
-                        </Message> */}
+
+                            Don't have an account? <Button basic color='blue' size='mini' content='Sign Up' onClick={() => this.OnRegister()} />
+                            {/* <Button basic content='Next' icon='right arrow' labelPosition='right' /> */}
+                            {/* <a href="#" onClick={() => this.OnRegister()}>
+                                Sign Up
+</a> */}
+                        {/* </Message> */}
+                    </Grid.Column>
+                </Grid>
+            </div >
+        ) :
+
+            (<div style={divStyle}>
+                <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
+                    <Grid.Column style={{ maxWidth: 450 }}>
+                        <Header as='h2' color='teal' textAlign='center'>
+                            Register to account VH3
+</Header>
+                        <Form size='large'>
+                            <Segment stacked>
+                                <Form.Input
+                                    fluid
+                                    icon='user'
+                                    iconPosition='left'
+                                    placeholder='User Employee'
+                                    type='text'
+                                    name="emp_id"
+                                    value={emp_id}
+                                    maxLength={8}
+                                    error={pop_emp_id}
+                                    onChange={this.handleChange}
+                                />
+                                <Form.Input
+                                    fluid
+                                    icon='lock'
+                                    iconPosition='left'
+                                    placeholder='Password'
+                                    type='password'
+                                    name="password"
+                                    value={password}
+                                    error={pop_password}
+                                    onChange={this.handleChange}
+                                />
+                                <Form.Input
+                                    fluid
+                                    icon='lock'
+                                    iconPosition='left'
+                                    placeholder='Confirm Password'
+                                    type='password'
+                                    name="confirm_password"
+                                    value={confirm_password}
+                                    error={pop_password}
+                                    onChange={this.handleChange}
+                                />
+                                <Button color='teal' fluid size='large' onClick={() => { this._validate() }} >
+                                    Submit
+    </Button>
+                                {/* onClick={() => this.SubmitsearchEmail()}  */}
+                            </Segment>
+                        </Form>
                     </Grid.Column>
                 </Grid>
             </div>
-        )
+            )
     }
 }

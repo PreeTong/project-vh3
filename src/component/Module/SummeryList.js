@@ -141,14 +141,12 @@ class SummeryList extends Component {
                 }
             })
         }
-        else{
-            console.log('object')
-        }
+        
     }
 
     checkData_res = (data) => {
         if (data === '' || data.length === 0 || data === null) {
-            console.log('object')
+            // console.log('object')
         }
         else {
             let items = fetchapi('car/get_car/', { search: data.search })
@@ -170,22 +168,13 @@ class SummeryList extends Component {
 
             return setTimeout(() => {
 
-                let items = fetchapi('vh3/get_load_description', { search: nextProps.post.data.search, process: 'summerycar', sumnow: nextProps.post.data.sumnow })
+                let items = fetchapi('vh3/get_load_description', { search: nextProps.post.data.search, process: 'summerycar', sumnow: nextProps.post.data.sumnow})
                 items.then(res => res.json())
                     // .then(res => console.log(res))
                     .then(res => this.setState({
                         dateTable: res
                     }), this.checkData_res(nextProps.post.data))
 
-
-                //     fetch(webapi + 'vh3/get_load_description/', {
-                //         method: 'post',
-                //         headers: { 'Content-Type': 'application/json' },
-                //         body: JSON.stringify({ search: nextProps.post.data.licence_plate_num, process: 'summerycar' })
-                //     }).then(res => res.json())
-                //         .then(res => console.log(res))
-
-                //     this.setState({ data: nextProps.post.data })
             }, 1000)
         }
         else {
@@ -194,62 +183,62 @@ class SummeryList extends Component {
     }
 
 
-    renderHeader() {
-        let { data } = this.state
+    // renderHeader() {
+    //     let { data } = this.state
 
-        if (data) {
+    //     if (data) {
 
-            return (
+    //         return (
 
-                <Table.Header >
-                    <Table.Row>
-                        <Table.Cell colSpan='12' ></Table.Cell>
-                    </Table.Row>
-                    <Table.Row >
-                        <Table.Cell />
-                        <Table.HeaderCell colSpan='5' border='1'>Name : {data.user_initt + "" + data.user_fnamet + " " + data.user_lnamet}</Table.HeaderCell>
-                        <Table.HeaderCell colSpan='6'>EmployeeID : {data.user_empid}</Table.HeaderCell>
+    //             <Table.Header >
+    //                 <Table.Row>
+    //                     <Table.Cell colSpan='12' ></Table.Cell>
+    //                 </Table.Row>
+    //                 <Table.Row >
+    //                     <Table.Cell />
+    //                     <Table.HeaderCell colSpan='5' border='1'>Name : {data.user_initt + "" + data.user_fnamet + " " + data.user_lnamet}</Table.HeaderCell>
+    //                     <Table.HeaderCell colSpan='6'>EmployeeID : {data.user_empid}</Table.HeaderCell>
 
-                    </Table.Row>
-                    <Table.Row>
-                        <Table.Cell />
-                        <Table.HeaderCell colSpan='2'>Division : {data.user_department}</Table.HeaderCell>
-                        <Table.HeaderCell colSpan='5'>Department : {data.user_department}</Table.HeaderCell>
-                        <Table.HeaderCell colSpan='4'>Register No. : {data.licence_plate_num}</Table.HeaderCell>
+    //                 </Table.Row>
+    //                 <Table.Row>
+    //                     <Table.Cell />
+    //                     <Table.HeaderCell colSpan='2'>Division : {data.user_department}</Table.HeaderCell>
+    //                     <Table.HeaderCell colSpan='5'>Department : {data.user_department}</Table.HeaderCell>
+    //                     <Table.HeaderCell colSpan='4'>Register No. : {data.licence_plate_num}</Table.HeaderCell>
 
-                    </Table.Row>
-                    <Table.Row>
-                        <Table.Cell />
-                        <Table.HeaderCell colSpan='5'>Brand : {data.car_brand}</Table.HeaderCell>
-                        <Table.HeaderCell colSpan='6'>Oil type : {data.product}</Table.HeaderCell>
-                    </Table.Row>
-                    <Table.Row>
-                        <Table.Cell colSpan='12'></Table.Cell>
-                    </Table.Row>
-                    <Table.Row>
-                        <Table.HeaderCell rowSpan='2'>No.</Table.HeaderCell>
-                        <Table.HeaderCell rowSpan='2'>
-                            OBJECTIVE / PLACE / DESCRIPTION
-    </Table.HeaderCell>
-                        <Table.HeaderCell rowSpan='2'>CHECK OUT</Table.HeaderCell>
-                        <Table.HeaderCell rowSpan='2'>DATE-TIME</Table.HeaderCell>
-                        <Table.HeaderCell rowSpan='2'>CHECK IN</Table.HeaderCell>
-                        <Table.HeaderCell rowSpan='2'>DATE-TIME</Table.HeaderCell>
-                        <Table.HeaderCell rowSpan='2'>WORKING DISTANCE KM.</Table.HeaderCell>
-                        <Table.HeaderCell colSpan='3' textAlign='center'>REFUEL</Table.HeaderCell>
-                        <Table.HeaderCell rowSpan='2'>Expressway</Table.HeaderCell>
-                        <Table.HeaderCell rowSpan='2'>Carpark</Table.HeaderCell>
-                        <Table.HeaderCell rowSpan='2'>Otherexpress</Table.HeaderCell>
-                    </Table.Row>
-                    <Table.Row>
-                        <Table.HeaderCell>RM NO.</Table.HeaderCell>
-                        <Table.HeaderCell>LITR</Table.HeaderCell>
-                        <Table.HeaderCell>BATH</Table.HeaderCell>
-                    </Table.Row>
-                </Table.Header>
-            )
-        }
-    }
+    //                 </Table.Row>
+    //                 <Table.Row>
+    //                     <Table.Cell />
+    //                     <Table.HeaderCell colSpan='5'>Brand : {data.car_brand}</Table.HeaderCell>
+    //                     <Table.HeaderCell colSpan='6'>Oil type : {data.product}</Table.HeaderCell>
+    //                 </Table.Row>
+    //                 <Table.Row>
+    //                     <Table.Cell colSpan='12'></Table.Cell>
+    //                 </Table.Row>
+    //                 <Table.Row>
+    //                     <Table.HeaderCell rowSpan='2'>No.</Table.HeaderCell>
+    //                     <Table.HeaderCell rowSpan='2'>
+    //                         OBJECTIVE / PLACE / DESCRIPTION
+    // </Table.HeaderCell>
+    //                     <Table.HeaderCell rowSpan='2'>CHECK OUT</Table.HeaderCell>
+    //                     <Table.HeaderCell rowSpan='2'>DATE-TIME</Table.HeaderCell>
+    //                     <Table.HeaderCell rowSpan='2'>CHECK IN</Table.HeaderCell>
+    //                     <Table.HeaderCell rowSpan='2'>DATE-TIME</Table.HeaderCell>
+    //                     <Table.HeaderCell rowSpan='2'>WORKING DISTANCE KM.</Table.HeaderCell>
+    //                     <Table.HeaderCell colSpan='3' textAlign='center'>REFUEL</Table.HeaderCell>
+    //                     <Table.HeaderCell rowSpan='2'>Expressway</Table.HeaderCell>
+    //                     <Table.HeaderCell rowSpan='2'>Carpark</Table.HeaderCell>
+    //                     <Table.HeaderCell rowSpan='2'>Otherexpress</Table.HeaderCell>
+    //                 </Table.Row>
+    //                 <Table.Row>
+    //                     <Table.HeaderCell>RM NO.</Table.HeaderCell>
+    //                     <Table.HeaderCell>LITR</Table.HeaderCell>
+    //                     <Table.HeaderCell>BATH</Table.HeaderCell>
+    //                 </Table.Row>
+    //             </Table.Header>
+    //         )
+    //     }
+    // }
 
     renderTable() {
         let { data, dateTable, summery: { sum_working_distance, sum_litr, sum_baht, sum_expressway, sum_carpark, sum_otherexpress } } = this.state
@@ -328,64 +317,16 @@ class SummeryList extends Component {
 
 
     render() {
-        // let { array, data } = this.state
-        // console.log(this.state)
-
-        // let { dateTable, summery: { sum_working_distance, sum_litr, sum_baht, sum_expressway, sum_carpark, sum_otherexpress } } = this.state
-        return (
+       return (
             <div>
                 <Search />
                 <Header size="huge"> DESCRIPTION  </Header>
-                {/* <Button floated='right' negative circular icon='download' /> */}
-                <Divider />
-                {/* <ReactHTMLTableToExcel
-                    id="test-table-xls-button"
-                    className="download-table-xls-button"
-                    table="table-to-xls2"
-                    filename="tablexls"
-                    sheet="tablexls"
-                    buttonText="Download as XLS" />
-                <Button onClick={() => this.myFunction()}>Print this page</Button> */}
-                {/* <PDF data={array} header={data} /> */}
+                
+                
                 <Divider />
                 <Form>
                     <Form.Group style={FromStyleGroup}>
                         {this.renderTable()}
-                        {/* <Table celled padded selectable id="table-to-xls" >
-                            {this.renderHeader()}
-                            <Table.Body>
-                                {(dateTable && dateTable.length > 0) ? dateTable : null}
-                            </Table.Body>
-                            <Table.Footer>
-                                <Table.Row>
-                                    <Table.HeaderCell />
-                                    <Table.HeaderCell colSpan='5'>
-                                        Grand Total
-                                    </Table.HeaderCell>
-                                    <Table.HeaderCell>
-                                        {sum_working_distance}
-                                    </Table.HeaderCell>
-                                    <Table.HeaderCell />
-                                    <Table.HeaderCell>
-                                        {sum_litr}
-                                    </Table.HeaderCell>
-                                    <Table.HeaderCell>
-                                        {sum_baht}
-                                    </Table.HeaderCell>
-                                    <Table.HeaderCell>
-                                        {sum_expressway}
-                                    </Table.HeaderCell>
-                                    <Table.HeaderCell>
-                                        {sum_carpark}
-                                    </Table.HeaderCell>
-                                    <Table.HeaderCell>
-                                        {sum_otherexpress}
-                                    </Table.HeaderCell>
-                                </Table.Row>
-                            </Table.Footer>
-                        </Table> */}
-
-
                     </Form.Group>
                 </Form>
             </div>

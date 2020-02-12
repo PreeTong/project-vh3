@@ -4,10 +4,12 @@ import Index from '../Component/Home'
 import InformationDataVh3 from '../Component/InformationDataVh3'
 // import SummeryCar from '../Component/SummeryCar'
 import EditData from '../Component/EditData'
-import Users from '../Component/Users'
+import TestUsers from '../Component/Users'
 import PDF from '../Component/PDF'
+import PDF_Damo from '../Component/PDF-Damo'
 import AuthSystem from '../Component/AuthSystem'
 // import ComingSoon from '../Component/ComingSoon'
+import Analysis from '../Component/Analysis'
 
 import Navbar from '../Component/Navbar'
 
@@ -28,13 +30,16 @@ export default class Secure extends Component {
         <Switch>
           <Route exact path="/" component={Index} />
           <Route path="/vh3information" component={InformationDataVh3} />
-          <Route path="/summerycar" component={EditData} />
+          <Route path="/summarycar" component={EditData} />
           {/* <Route path="/summerycar" component={ComingSoon} /> */}
           <Route path="/editdata" component={EditData} />
-          <Route path="/users" component={Users} />
+          <Route path="/users" component={NoMatch} />
+          <Route path="/testusers" component={TestUsers} />
           <Route path="/testreport" component={TestReprot} />
           <Route path="/pdf" component={PDF} />
+          <Route path="/pdf-damo" component={PDF_Damo} />
           <Route path="/authsystem" component={AuthSystem} />
+          <Route path="/analysis" component={Analysis} />
           {/* <Route path="/vh3/testpdf" component={MyDocument} /> */}
           <Route component={NoMatch}/>
         </Switch>

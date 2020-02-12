@@ -41,11 +41,11 @@ class ViewData extends Component {
     // ItemClick = (num) => this.setState({ activeItem: num })
 
 
-    componentWillUpdate(nextProps, nextState) {
-        // console.log(nextState)
-        console.log(nextProps)
+    // componentWillUpdate(nextProps, nextState) {
+    //     // console.log(nextState)
+    //     console.log(nextProps)
 
-    }
+    // }
     // componentDidUpdate(prevProps, prevState) {
 
     // }
@@ -106,7 +106,7 @@ class ViewData extends Component {
                     <Table.Cell textAlign='right'>{number.bath}</Table.Cell>
                     <Table.Cell textAlign='right'>{number.carpark}</Table.Cell>
                     <Table.Cell textAlign='right'>{number.expressway}</Table.Cell>
-                    <Table.Cell textAlign='right'>{number.otherexpress}</Table.Cell>
+                    <Table.Cell textAlign='right'>{number.otherexpenses}</Table.Cell>
                     <Table.Cell collapsing>
                     </Table.Cell>
                 </Table.Row>
@@ -187,7 +187,7 @@ class ViewData extends Component {
                                         <Table.HeaderCell colSpan='3' textAlign='center'>REFUEL</Table.HeaderCell>
                                         <Table.HeaderCell rowSpan='2'>Expressway</Table.HeaderCell>
                                         <Table.HeaderCell rowSpan='2'>Carpark</Table.HeaderCell>
-                                        <Table.HeaderCell rowSpan='2'>Otherexpress</Table.HeaderCell>
+                                        <Table.HeaderCell rowSpan='2'>Otherexpenses</Table.HeaderCell>
                                         <Table.HeaderCell rowSpan='2' />
                                     </Table.Row>
                                     <Table.Row>
