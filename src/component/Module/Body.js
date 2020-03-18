@@ -2,6 +2,7 @@ import React, { Component, createRef } from 'react'
 import {
     Button,
     Form,
+    Input,
     Table,
     Popup,
     Header,
@@ -62,16 +63,22 @@ export class Body extends Component {
         buttonedit: true,
         buttonadd: false,
         buttonsave: true,
-
-        dataEdit: null,
         // messageIsOpenPositive: true,
         messageText: null,
-        arr: [],
+        messageAlert: [{}],
         license_plate: null,
         modalOpen: false,
         modalSubmitOpen: false,
+        modalAlert: false,
         rm_no_contorl: false,
-        fleet_card_num: null
+        fleet_card_num: null,
+        total: null,
+        dataEdit: null,
+        // numbercount
+        arr: [],
+        // numRow: 0,
+        numberarr: 0,
+
     }
 
     //focus ref
@@ -86,12 +93,69 @@ export class Body extends Component {
     handleClose = () => this.setState({ modalOpen: false })
 
     handleChange(event) {
+        // console.log(event.target.name)
         this.setState({
             form: {
                 ...this.state.form,
                 [event.target.name]: event.target.value
             }
         })
+        if (event.target.name === 'data_time_out') {
+            this.setState({
+                form: {
+                    ...this.state.form,
+                    [event.target.name]: event.target.value,
+                    data_time_in: event.target.value
+                }
+            })
+        }
+    }
+
+
+
+    ProcessloopA = () => {
+        let { arr, numberarr } = this.state
+        // console.log(arr.length, numberarr)
+        if (arr.length > numberarr) {
+            // console.log("object")
+            this.InputData(arr)
+        }
+        else {
+            this.setState({ modalAlert: true, messageText: "ข้อมูลได้บันทึกเข้าระบบหมดแล้ว" })
+        }
+    }
+
+    InputData = (data) => {
+        let { numberarr } = this.state
+        let item = data[numberarr]
+        // console.log(item)
+        if (item.num != 1) {
+            fetch(webapi + 'vh3/save_description', {
+                method: 'post',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(item)
+            }).then(res => res.json())
+                .then(res => this.setArray(res, numberarr))
+                .catch(error => {
+                    console.log(error)
+                })
+        } else {
+            return true
+        }
+
+    }
+
+    setArray = (num, key) => {
+        let { arr, numberarr } = this.state
+
+        const updataArray = [...arr]
+        let data = updataArray[key]
+        data.num = 1
+        updataArray[key] = data
+
+        // console.log(updataArray[key])
+        this.setState({ arr: updataArray, numberarr: numberarr + 1 }, () => this.ProcessloopA())
+
     }
 
     submitFrom() {
@@ -99,15 +163,10 @@ export class Body extends Component {
         console.log(arr)
         // Check ค่า if() ตรงนี้
         if (arr.length === 0) {
-            this.setState({ arr: [], dateTable: null, messageIsOpenNegative: false, messageText: "Please fill out the information. " })
+            this.setState({ arr: [], dateTable: null, modalAlert: true, messageText: "กรุณากรอกข้อมูล " })
         }
         else {
-            fetch(webapi + 'vh3/save_description', {
-                method: 'post',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(arr)
-            }).then(res => res.json())
-                .then(res => this.setState({ arr: [], dateTable: null, modalSubmitOpen: true, messageText: res.affectedRows, modalOpen: false }, () => this.props.updatament(), this.removeCookie()))
+            this.ProcessloopA()
         }
 
     }
@@ -117,10 +176,10 @@ export class Body extends Component {
         let { arr, form: { des,
             check_out,
             data_time_out,
-            // time_outs,
+            time_outs,
             check_in,
             data_time_in,
-            // time_in,
+            time_in,
             rm_no,
             litr,
             bath,
@@ -129,16 +188,15 @@ export class Body extends Component {
             otherexpenses,
         } } = this.state
 
-
         this.setState({
             isOpen: {
                 pop_des: (des === '' || des.length === 0 || des === null) ? true : false,
                 pop_check_out: (check_out === '' || check_out.length === 0 || check_out === null) ? true : false,
                 pop_data_time_out: (data_time_out === '' || data_time_out.length === 0 || data_time_out === null) ? true : false,
-                // pop_time_outs: (time_outs === '' || this.getvalueOf(time_outs)) ? true : false,
+                pop_time_outs: (time_outs === '' || time_outs.length === 0) ? true : false,
                 pop_check_in: (check_in === '' || check_in.length === 0 || check_in === null) ? true : false,
                 pop_data_time_in: (data_time_in === '' || data_time_in.length === 0 || data_time_in === null) ? true : false,
-                // pop_time_in: (time_in === '' || this.getvalueOf(time_in)) ? true : false,
+                pop_time_in: (time_in === '' || time_in.length === 0) ? true : false,
             },
             form: {
                 ...this.state.form,
@@ -251,7 +309,7 @@ export class Body extends Component {
                         })
                     }
                     else {
-                    // console.log(a > b)
+                        // console.log(a > b)
 
                         this.setState({
                             form: {
@@ -331,6 +389,7 @@ export class Body extends Component {
                 branch: '',
                 tax_inv_no: '',
                 licence_plate_num: licence_plate_num,
+                num: null
             }
         })
     }
@@ -384,7 +443,8 @@ export class Body extends Component {
                 licence_plate_num: data.licence_plate_num,
                 tax_id: data.tax_id,
                 branch: data.branch,
-                tax_inv_no: data.tax_inv_no
+                tax_inv_no: data.tax_inv_no,
+                num: null
             }
         })
     }
@@ -442,7 +502,8 @@ export class Body extends Component {
                         otherexpenses: '',
                         tax_id: '',
                         branch: '',
-                        tax_inv_no: ''
+                        tax_inv_no: '',
+                        num: null
                     }
                 })
             )
@@ -588,7 +649,8 @@ export class Body extends Component {
                         expressway: 0,
                         otherexpenses: 0,
                         licence_plate_num: licence_plate_num,
-                        fleet_card_num: ''
+                        fleet_card_num: '',
+                        num: null
                     },
                     buttonsave: false
                 }, () => this.addtabledetail())
@@ -626,11 +688,12 @@ export class Body extends Component {
         return (dateTable ? dateTable : null)
     }
 
-    renderDataTest() {
+    renderData() {
         let { arr } = this.state
         return (
             arr.map((number, key) => (
-                <Table.Row key={key}>
+                // <Table.Row style={{ backgroundColor: (items.vh3_id) ? '#22aaaa50' : '#FF555550' }} key={key}>
+                <Table.Row style={{ backgroundColor: (number.num) ? '#22aaaa50' : '#FF555550' }} key={key}>
                     <Table.Cell>{key + 1}</Table.Cell>
                     {/* <Table.Cell collapsing>{number.user_fnamet + ' ' + number.user_lnamet}</Table.Cell> */}
                     <Table.Cell fixed="true">{number.des}</Table.Cell>
@@ -695,10 +758,12 @@ export class Body extends Component {
         // buttonsave เอาออกก่อนรอการแก้ไข
         let {
             PropsData,
-            inputCheck_out,
+            // inputCheck_out,
+            arr,
+            numberarr,
             isOpen: {
                 pop_des, pop_check_in, pop_check_out, pop_data_time_in, pop_data_time_out, pop_rm_no, pop_litr, pop_bath, pop_tax_id, pop_branch, pop_tax_inv_no, pop_time_outs, pop_time_in
-            }, buttonedit, buttonadd, messageText, modalOpen, modalSubmitOpen, form: { des, check_out, data_time_out, time_outs, check_in, data_time_in, time_in, rm_no, litr, bath, expressway, carpark, otherexpenses, tax_id, branch, tax_inv_no }
+            }, buttonedit, buttonadd, messageText, modalOpen, modalSubmitOpen, modalAlert, messageAlert, total_amount, form: { des, check_out, data_time_out, time_outs, check_in, data_time_in, time_in, rm_no, litr, bath, expressway, carpark, otherexpenses, tax_id, branch, tax_inv_no }
         } = this.state
 
 
@@ -731,6 +796,7 @@ export class Body extends Component {
                                 placeholder="OBJECTIVE / DESCRIPTION"
                                 required
                                 autoFocus
+
                                 // autoFocus={autoFocuInput} ขอค้างไว้ก่อนจะกลับมาดู
                                 error={pop_des}
                             />
@@ -786,6 +852,7 @@ export class Body extends Component {
                                 type="number"
                             />
                             <Form.Input
+                                disabled
                                 required
                                 fluid
                                 name="data_time_in"
@@ -812,38 +879,7 @@ export class Body extends Component {
 
 
                         <Divider />
-                        <Form.Group widths="equal">
-                            <Form.Input
-                                fluid
-                                name="rm_no"
-                                value={rm_no}
-                                label="RM No. (เลขไมค์รถ ณ ที่เติมน้ำมัน)"
-                                placeholder="RM No."
-                                onChange={this.handleChange}
-                                type="number"
-                                error={pop_rm_no}
-                            />
-                            <Form.Input
-                                fluid
-                                name="litr"
-                                value={litr}
-                                label="LITR"
-                                placeholder="LITR"
-                                onChange={this.handleChange}
-                                type="number"
-                                error={pop_litr}
-                            />
-                            <Form.Input
-                                fluid
-                                name="bath"
-                                value={bath}
-                                label="BATH"
-                                placeholder="BATH"
-                                onChange={this.handleChange}
-                                type="number"
-                                error={pop_bath}
-                            />
-                        </Form.Group>
+
                         <Form.Group widths="equal">
                             <Form.Input
                                 fluid
@@ -876,6 +912,36 @@ export class Body extends Component {
                         {/*  INV  */}
                         <Divider />
                         <Form.Group widths="equal">
+                            <Form.Input
+                                fluid
+                                name="rm_no"
+                                value={rm_no}
+                                label="RM No. (เลขไมค์รถ ณ ที่เติมน้ำมัน)"
+                                placeholder="RM No."
+                                onChange={this.handleChange}
+                                type="number"
+                                error={pop_rm_no}
+                            />
+                            <Form.Input
+                                fluid
+                                name="litr"
+                                value={litr}
+                                label="LITR"
+                                placeholder="LITR"
+                                onChange={this.handleChange}
+                                type="number"
+                                error={pop_litr}
+                            />
+                            <Form.Input
+                                fluid
+                                name="bath"
+                                value={bath}
+                                label="BATH"
+                                placeholder="BATH"
+                                onChange={this.handleChange}
+                                type="number"
+                                error={pop_bath}
+                            />
                         </Form.Group>
                         <Form.Group widths="equal">
                             <Form.Input
@@ -932,7 +998,7 @@ export class Body extends Component {
                                 <Icon corner name="save outline" />
                                 บันทึก
 </Button> */}
-
+                            <p style={{ marginLeft: "25px", marginTop: "10px" }}>จำนวนการบันทึกข้อมูลสู่ระบบ => {numberarr} / {arr.length} จำนวน</p>
                         </Form.Group>
                         <Divider />
                     </Form>
@@ -965,6 +1031,7 @@ export class Body extends Component {
                                         <Table.HeaderCell rowSpan='2'>TAX ID</Table.HeaderCell>
                                         <Table.HeaderCell rowSpan='2'>Branch</Table.HeaderCell>
                                         <Table.HeaderCell rowSpan='2'>TAX INV NO.</Table.HeaderCell>
+                                        <Table.HeaderCell rowSpan='2' />
                                     </Table.Row>
                                     <Table.Row>
                                         <Table.HeaderCell>D/M/Y</Table.HeaderCell>
@@ -981,7 +1048,7 @@ export class Body extends Component {
 
                                 <Table.Body>
                                     {/* {this.renderData()} */}
-                                    {this.renderDataTest()}
+                                    {this.renderData()}
                                 </Table.Body>
 
                             </Table>
@@ -1002,7 +1069,7 @@ export class Body extends Component {
                                     <Button basic color='red' onClick={this.handleClose}>
                                         <Icon name='remove' /> No
   </Button>
-                                    <Button color='green' onClick={() => this.submitFrom()}>
+                                    <Button color='green' onClick={() => this.setState({ modalOpen: false }, this.submitFrom())}>
                                         <Icon name='checkmark' /> Yes
   </Button>
                                 </Modal.Actions>
@@ -1016,6 +1083,19 @@ export class Body extends Component {
                                 </Modal.Content>
                                 <Modal.Actions>
                                     <Button color='green' inverted onClick={() => this.setState({ modalSubmitOpen: false })}>
+                                        <Icon name='checkmark' /> OK
+  </Button>
+                                </Modal.Actions>
+                            </Modal>
+                            <Modal open={modalAlert} size='small'>
+                                <Header icon='archive' content='Archive Old Messages' />
+                                <Modal.Content>
+                                    <p>
+                                        {messageText}
+                                    </p>
+                                </Modal.Content>
+                                <Modal.Actions>
+                                    <Button color='green' inverted onClick={() => this.setState({ modalAlert: false })}>
                                         <Icon name='checkmark' /> OK
   </Button>
                                 </Modal.Actions>

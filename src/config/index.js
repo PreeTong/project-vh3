@@ -3,9 +3,13 @@
 // const webapi = 'https://vh3.digime.space/api/'
 const host = window.location.hostname;
 const port = 8000;
+// console.log(host)
 // const webapi = `https://${host}/api/`
-const webapi = `https://vh3.wwit.info/api/`
-const apilocal = `https://${host}:${port}/api/`
+let hostname = (host == "vh3") ? `http://${host}:${port}` : `https://vh3.wwit.info`
+hostname = host == 'localhost' ? `http://vh3:${port}` : hostname
+// const webapi = `${hostname}/api/`
+const webapi = `${hostname}/api/`
+// const apilocal = `https://${host}:${port}/api/`
 
 
 const fetchapi = (path, value) => {
@@ -66,4 +70,4 @@ const fetchapiUpData = (path, value) => {
     })
 }
 
-export { webapi, apilocal, fetchapi, fetchapiDelete, fetchapiUpData, fetchapiGet }
+export { webapi, fetchapi, fetchapiDelete, fetchapiUpData, fetchapiGet }

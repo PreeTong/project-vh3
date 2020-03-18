@@ -1,7 +1,7 @@
 import React from 'react'
 import { Container, Header, Divider, Segment } from 'semantic-ui-react/dist/commonjs'
 import ModuleHeader from './Module/Header'
-import BodyTest from './Module/Body'
+import Body from './Module/Body'
 import ViewData from './ViewData'
 
 
@@ -20,6 +20,6 @@ export default () => (
 
 
         <Divider />
-        <BodyTest />
+        <Body />
     </div>
 )

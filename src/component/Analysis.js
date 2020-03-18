@@ -71,6 +71,8 @@ export default class Analysis extends Component {
   }
 
   Option_MonthCode = data => {
+
+    // console.log(data)
     data.map((items, key) => {
       return this.setState({
         options: [
@@ -485,6 +487,27 @@ export default class Analysis extends Component {
             <Button color="green" onClick={() => this.OnShowData()}>
               <Icon name="zoom" />
               ShowData
+            </Button>
+            <Button color="black" onClick={() => this.setState({
+              // options: [],
+              value: "",
+              dis_bank: [],
+              datalist: [],
+              loop_A: null,
+              loop_B: 0,
+              sumTotal: 0,
+              Vh3_Total_amount: 0,
+              pause: false,
+              inputOut: null,
+              inputIn: null,
+              valueOut: null,
+              valueIn: null,
+              filter: {
+                diff: false
+              }
+            })}>
+              <Icon name="reply" />
+              ClearData
             </Button>
           </Segment>
           <Grid divided="vertically">

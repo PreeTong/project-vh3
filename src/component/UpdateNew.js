@@ -10,7 +10,8 @@ const UpdateNew = () => {
                     <List>
                         <List.Item>
                             <List.Icon name='arrow right' />
-                            <List.Content ><p style={{color: "blue"}}>เพิ่มเติมส่วนของการคัณหาข้อมูลย้อนหลัง</p></List.Content>
+                            <List.Content ><p style={{color: "blue"}}>ปรับปรุงการบันทึกข้อมูลให้สามารถเห็นการทำงานแต่ละ Process</p></List.Content>
+                            {/* <List.Content ><p style={{color: "blue"}}></p></List.Content> */}
                         </List.Item>
                         {/* <List.Item>
                             <List.Icon name='arrow right' />
